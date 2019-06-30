@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.keymao.common.utils.CookieUtils;
+import com.keymao.common.utils.E3Result;
 import com.keymao.common.utils.JsonUtils;
 import com.keymao.pojo.TbItem;
 import com.keymao.pojo.TbUser;
@@ -99,20 +100,18 @@ public class CartController {
 		return list;
 	}
 	
-/*	*//**
+	/**
 	 * 展示购物车列表
-	 * <p>Title: showCatList</p>
-	 * <p>Description: </p>
 	 * @param request
 	 * @return
-	 *//*
+	 */
 	@RequestMapping("/cart/cart")
 	public String showCatList(HttpServletRequest request, HttpServletResponse response) {
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//判断用户是否为登录状态
 		TbUser user = (TbUser) request.getAttribute("user");
-		//如果是登录状态
+/*		//如果是登录状态
 		if (user != null) {
 			//从cookie中取购物车列表
 			//如果不为空，把cookie中的购物车商品和服务端的购物车商品合并。
@@ -122,26 +121,27 @@ public class CartController {
 			//从服务端取购物车列表
 			cartList = cartService.getCartList(user.getId());
 			
-		}
+		}*/
 		//把列表传递给页面
 		request.setAttribute("cartList", cartList);
 		//返回逻辑视图
 		return "cart";
 	}
-	
-	*//**
+
+	/**
 	 * 更新购物车商品数量
-	 *//*
+	 * 请求如果是html后缀且返回了Json对象。此时.html并不会解析该对象，会报错406。解决方法：请求改为.aciont后缀
+	 */
 	@RequestMapping("/cart/update/num/{itemId}/{num}")
 	@ResponseBody
 	public E3Result updateCartNum(@PathVariable Long itemId, @PathVariable Integer num
-			, HttpServletRequest request ,HttpServletResponse response) {
+			, HttpServletRequest request , HttpServletResponse response) {
 		//判断用户是否为登录状态
-		TbUser user = (TbUser) request.getAttribute("user");
+/*		TbUser user = (TbUser) request.getAttribute("user");
 		if (user != null) {
 			cartService.updateCartNum(user.getId(), itemId, num);
 			return E3Result.ok();
-		}
+		}*/
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//遍历商品列表找到对应的商品
@@ -157,19 +157,20 @@ public class CartController {
 		//返回成功
 		return E3Result.ok();
 	}
-	
-	*//**
+
+
+	/**
 	 * 删除购物车商品
-	 *//*
+	 */
 	@RequestMapping("/cart/delete/{itemId}")
 	public String deleteCartItem(@PathVariable Long itemId, HttpServletRequest request,
 			HttpServletResponse response) {
 		//判断用户是否为登录状态
-		TbUser user = (TbUser) request.getAttribute("user");
+/*		TbUser user = (TbUser) request.getAttribute("user");
 		if (user != null) {
 			cartService.deleteCartItem(user.getId(), itemId);
 			return "redirect:/cart/cart.html";
-		}
+		}*/
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//遍历列表，找到要删除的商品
@@ -185,5 +186,5 @@ public class CartController {
 		CookieUtils.setCookie(request, response, "cart", JsonUtils.objectToJson(cartList), COOKIE_CART_EXPIRE, true);
 		//返回逻辑视图
 		return "redirect:/cart/cart.html";
-	}*/
+	}
 }
