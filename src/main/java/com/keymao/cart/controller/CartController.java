@@ -12,6 +12,7 @@ import com.keymao.common.utils.JsonUtils;
 import com.keymao.pojo.TbItem;
 import com.keymao.pojo.TbUser;
 import com.keymao.service.ItemService;
+import com.keymaoshop.cart.service.CartService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,13 +35,13 @@ public class CartController {
 	
 	@Autowired
 	private ItemService itemService;
-/*	@Autowired
-	private CartService cartService;*/
+	@Autowired
+	private CartService cartService;
 
 	@RequestMapping("/cart/add/{itemId}")
 	public String addCart(@PathVariable Long itemId, @RequestParam(defaultValue="1")Integer num,
 			HttpServletRequest request, HttpServletResponse response) {
-/*		//判断用户是否登录
+		//判断用户是否登录
 		TbUser user = (TbUser) request.getAttribute("user");
 		//如果是登录状态，把购物车写入redis
 		if (user != null) {
@@ -48,7 +49,7 @@ public class CartController {
 			cartService.addCart(user.getId(), itemId, num);
 			//返回逻辑视图
 			return "cartSuccess";
-		}*/
+		}
 		//如果未登录使用cookie
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
@@ -111,7 +112,7 @@ public class CartController {
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//判断用户是否为登录状态
 		TbUser user = (TbUser) request.getAttribute("user");
-/*		//如果是登录状态
+		//如果是登录状态
 		if (user != null) {
 			//从cookie中取购物车列表
 			//如果不为空，把cookie中的购物车商品和服务端的购物车商品合并。
@@ -121,7 +122,7 @@ public class CartController {
 			//从服务端取购物车列表
 			cartList = cartService.getCartList(user.getId());
 			
-		}*/
+		}
 		//把列表传递给页面
 		request.setAttribute("cartList", cartList);
 		//返回逻辑视图
