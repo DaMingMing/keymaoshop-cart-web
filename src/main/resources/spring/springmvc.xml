@@ -20,10 +20,19 @@
 	<dubbo:registry protocol="zookeeper" address="192.168.27.101:2181,192.168.27.102:2182,192.168.184.27:2183" />
 
 	<dubbo:reference interface="com.keymao.service.ItemService" id="itemService"/>
-
+	<dubbo:reference interface="com.keymaoshop.sso.service.TokenService" id="tokenService"/>
+	<dubbo:reference interface="com.keymaoshop.cart.service.CartService" id="cartService"/>
 
 
 	<context:component-scan base-package="com.keymao.cart.controller" />
+
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.keymao.cart.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 	<!--整合jsp-->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
