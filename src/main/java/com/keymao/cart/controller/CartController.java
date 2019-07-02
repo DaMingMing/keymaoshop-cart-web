@@ -138,11 +138,11 @@ public class CartController {
 	public E3Result updateCartNum(@PathVariable Long itemId, @PathVariable Integer num
 			, HttpServletRequest request , HttpServletResponse response) {
 		//判断用户是否为登录状态
-/*		TbUser user = (TbUser) request.getAttribute("user");
+		TbUser user = (TbUser) request.getAttribute("user");
 		if (user != null) {
 			cartService.updateCartNum(user.getId(), itemId, num);
 			return E3Result.ok();
-		}*/
+		}
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//遍历商品列表找到对应的商品
@@ -167,11 +167,11 @@ public class CartController {
 	public String deleteCartItem(@PathVariable Long itemId, HttpServletRequest request,
 			HttpServletResponse response) {
 		//判断用户是否为登录状态
-/*		TbUser user = (TbUser) request.getAttribute("user");
+		TbUser user = (TbUser) request.getAttribute("user");
 		if (user != null) {
 			cartService.deleteCartItem(user.getId(), itemId);
 			return "redirect:/cart/cart.html";
-		}*/
+		}
 		//从cookie中取购物车列表
 		List<TbItem> cartList = getCartListFromCookie(request);
 		//遍历列表，找到要删除的商品
